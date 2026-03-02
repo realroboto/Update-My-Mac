@@ -10,11 +10,10 @@ sudo -u $USER brew tap --repair &&
 sudo -u $USER brew autoremove &&
 sudo -S dscacheutil -flushcache &&
 sudo -S killall -HUP mDNSResponder &&
-sudo -S purge &&
 echo "" > /Users/$USER/.ssh/known_hosts &&
 #sudo -S softwareupdate -i -a -R --agree-to-license --verbose 
-sudo scutil --set ComputerName M1
-sudo scutil --set LocalHostName M1
+sudo scutil --set ComputerName M1 &&
+sudo scutil --set LocalHostName M1 &&
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
@@ -28,6 +27,34 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 defaults write com.apple.finder AppleShowAllFiles -bool true
 chflags nohidden ~/Library
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-defaults write com.apple.dock autohide-delay -int 0
-defaults write com.apple.dock autohide-time-modifier -float 0.4
+
+
+# Desabilita o controle de AutoFill que causa lag
+defaults write -g NSAutoFillHeuristicControllerEnabled -bool false
+
+# Desabilita shadow rendering que causa alto uso de GPU
+launchctl setenv CHROME_HEADLESS 1
+
+# Desabilita Apple Intelligence via terminal
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+
+# Desabilita Siri
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+defaults write com.apple.Siri StatusMenuVisible -bool false
+
+# Desabilita transparências
+defaults write com.apple.universalaccess reduceTransparency -bool true
+
+#Acelerar Animações do Finder
+defaults write com.apple.finder DisableAllAnimations -bool true
+
+
+# Desabilita animações
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0.5
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+
+killall Finder
+killall SystemUIServer
 killall Dock
