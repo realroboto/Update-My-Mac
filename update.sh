@@ -42,9 +42,6 @@ defaults write com.apple.assistant.support "Assistant Enabled" -bool false
 defaults write com.apple.assistant.support "Assistant Enabled" -bool false
 defaults write com.apple.Siri StatusMenuVisible -bool false
 
-# Desabilita transparências
-#defaults write com.apple.universalaccess reduceTransparency -bool true
-
 #Acelerar Animações do Finder
 defaults write com.apple.finder DisableAllAnimations -bool true
 
