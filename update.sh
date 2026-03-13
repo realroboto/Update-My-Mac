@@ -12,8 +12,8 @@ sudo -S dscacheutil -flushcache &&
 sudo -S killall -HUP mDNSResponder &&
 echo "" > /Users/$USER/.ssh/known_hosts &&
 #sudo -S softwareupdate -i -a -R --agree-to-license --verbose 
-sudo scutil --set ComputerName M1 &&
-sudo scutil --set LocalHostName M1 &&
+#sudo scutil --set ComputerName M1 &&
+#sudo scutil --set LocalHostName M1 &&
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/thumbnails.fraghandler
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/exclusive
 #sudo rm -rfv $(getconf DARWIN_USER_CACHE_DIR)/com.apple.QuickLook.thumbnailcache/index.sqlite
