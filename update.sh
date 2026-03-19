@@ -35,13 +35,6 @@ defaults write -g NSAutoFillHeuristicControllerEnabled -bool false
 # Desabilita shadow rendering que causa alto uso de GPU
 launchctl setenv CHROME_HEADLESS 1
 
-# Desabilita Apple Intelligence via terminal
-defaults write com.apple.assistant.support "Assistant Enabled" -bool false
-
-# Desabilita Siri
-defaults write com.apple.assistant.support "Assistant Enabled" -bool false
-defaults write com.apple.Siri StatusMenuVisible -bool false
-
 #Acelerar Animações do Finder
 defaults write com.apple.finder DisableAllAnimations -bool true
 
