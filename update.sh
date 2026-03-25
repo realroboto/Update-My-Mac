@@ -31,20 +31,20 @@ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 
 # Desabilita o controle de AutoFill que causa lag
-defaults write -g NSAutoFillHeuristicControllerEnabled -bool false
+#defaults write -g NSAutoFillHeuristicControllerEnabled -bool false
 
 # Desabilita shadow rendering que causa alto uso de GPU
-launchctl setenv CHROME_HEADLESS 1
+#launchctl setenv CHROME_HEADLESS 1
 
 #Acelerar Animações do Finder
-defaults write com.apple.finder DisableAllAnimations -bool true
+#defaults write com.apple.finder DisableAllAnimations -bool true
 
 
 # Desabilita animações
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0.5
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+#defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+#defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
 killall Finder
 killall SystemUIServer
