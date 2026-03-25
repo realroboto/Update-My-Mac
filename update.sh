@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo -S purge &&
+sudo ifconfig awdl0 down
 sudo -u $USER brew analytics off
 sudo -u $USER brew update &&
 sudo -u $USER brew upgrade &&
