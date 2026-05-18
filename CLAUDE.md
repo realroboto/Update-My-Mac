@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A personal macOS maintenance script. The entire project is a single shell script, `update.sh`, plus a `README.md`. There is no build system, test suite, or dependencies to install.
 
-Structurally `update.sh` is organized into commented section headers: prerequisites (Homebrew guard + `sudo -v` credential caching with a background keepalive), system cleanup (`purge`, `ifconfig awdl0 down`), Homebrew (update/upgrade `--greedy`/autoremove/cleanup/tap repair), DNS cache flush, an optional disabled catalog (known_hosts, `softwareupdate`, ComputerName, QuickLook), the `defaults write` preferences, and a final `killall Finder/Dock/SystemUIServer` to apply them. Most commented-out lines are paused tweaks, not paused core logic.
+Structurally `update.sh` is organized into commented section headers: prerequisites (Homebrew guard), a single privileged `sudo sh -c` block (`purge`, `ifconfig awdl0 down`, DNS cache flush), Homebrew (update/upgrade `--greedy`/autoremove/cleanup/tap repair), an optional disabled catalog (known_hosts, `softwareupdate`, ComputerName, QuickLook), the `defaults write` preferences, and a final `killall Finder/Dock/SystemUIServer` to apply them. Most commented-out lines are paused tweaks, not paused core logic.
 
 ## Delivery model
 
@@ -21,7 +21,8 @@ Implications when editing:
 - Changes only take effect once committed and pushed to `main` — there is no release step, the raw file *is* the release.
 - The script runs non-interactively on a fresh shell with no arguments and no environment guarantees. Don't rely on the working directory, prompts, or interactive input.
 - It assumes the invoking user has `sudo` rights and Homebrew installed.
-- It is invoked **without** a `sudo` prefix (per `README.md`): `brew` runs directly as the user, and only commands that need root call `sudo` internally. The credential is cached once via `sudo -v` and kept alive by a background loop for the script's duration. Do not reintroduce `sudo -u $USER brew`.
+- It is invoked **without** a `sudo` prefix (per `README.md`): `brew` runs directly as the user, and only commands that need root call `sudo`. Do not reintroduce `sudo -u $USER brew`.
+- **All privileged commands run in a single `sudo sh -c '...'` block** near the top, so the user is authenticated exactly once regardless of the sudoers `timestamp_timeout` (no `sudo -v`, no keepalive, no `trap`). Any new root-requiring command — including enabling a sudo line from the optional catalog — must go inside that block, not as a separate `sudo` call, or it reintroduces a second prompt.
 
 ## Conventions
 

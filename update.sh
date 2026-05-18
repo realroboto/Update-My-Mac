@@ -21,21 +21,22 @@ command -v brew >/dev/null 2>&1 || {
 	exit 1
 }
 
-# Cacheia a credencial sudo uma vez (substitui `sudo -S` sem stdin) e
-# mantém viva em background enquanto o script roda — evita prompts repetidos.
-log "Solicitando sudo…"
-sudo -v || { warn "sudo necessário. Abortando."; exit 1; }
-while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
-SUDO_KEEPALIVE=$!
-trap 'kill "$SUDO_KEEPALIVE" 2>/dev/null' EXIT
-
-# --- Limpeza de sistema ----------------------------------------------------
-
-log "Liberando memória inativa (purge)…"
-sudo purge || warn "purge falhou"
-
-log "Desligando AWDL (reduz latência de Wi-Fi; reativa sozinho)…"
-sudo ifconfig awdl0 down || warn "ifconfig awdl0 falhou"
+# --- Operações privilegiadas (UMA única autenticação sudo) -----------------
+#
+# Todo comando que precisa de root roda aqui, numa só invocação de `sudo sh
+# -c`. Uma invocação = um único prompt de senha/Touch ID, independente do
+# `timestamp_timeout` do sudoers (não depende de cache nem de keepalive).
+# Nada aqui depende do brew nem da ordem, então rodar no início é seguro.
+# Se for habilitar algo do catálogo opcional que precise de root
+# (softwareupdate, scutil, rm do QuickLook), coloque dentro deste bloco
+# para continuar com um prompt só.
+log "Tarefas administrativas (pede sudo uma única vez)…"
+sudo sh -c '
+	purge                       || echo "[!] purge falhou" >&2
+	ifconfig awdl0 down         || echo "[!] ifconfig awdl0 falhou" >&2
+	dscacheutil -flushcache     || echo "[!] flushcache falhou" >&2
+	killall -HUP mDNSResponder  || echo "[!] reload do mDNSResponder falhou" >&2
+' || { warn "sudo necessário / bloco administrativo falhou. Abortando."; exit 1; }
 
 # --- Homebrew --------------------------------------------------------------
 
@@ -58,11 +59,7 @@ brew tap --repair || warn "brew tap --repair falhou"
 
 #brew doctor || true   # diagnóstico opcional (não interrompe a execução)
 
-# --- Cache de DNS ----------------------------------------------------------
-
-log "Limpando cache de DNS…"
-sudo dscacheutil -flushcache       || warn "flushcache falhou"
-sudo killall -HUP mDNSResponder    || warn "reload do mDNSResponder falhou"
+# (purge / AWDL / flush de DNS rodaram no bloco privilegiado lá em cima.)
 
 # --- Catálogo opcional (desabilitado por padrão) ---------------------------
 # Convenção do projeto: "disable, don't delete". Descomente o que quiser.
