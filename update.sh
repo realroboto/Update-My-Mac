@@ -67,7 +67,7 @@ brew tap --repair || warn "brew tap --repair falhou"
 # Limpa SSH known_hosts. ATENÇÃO: downgrade de segurança — remove a
 # detecção de MITM em hosts já confiados. Num Mac recém-formatado o
 # arquivo já está vazio de qualquer forma.
-#: > "$HOME/.ssh/known_hosts"
+: > "$HOME/.ssh/known_hosts"
 
 # Atualizações de sistema do macOS (reinicia ao final).
 #sudo softwareupdate -i -a -R --agree-to-license --verbose
