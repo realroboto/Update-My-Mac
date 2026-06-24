@@ -88,7 +88,7 @@ brew tap --repair || warn "brew tap --repair falhou"
 
 # --- Preferências do macOS -------------------------------------------------
 
-log "Aplicando preferências do sistema…"
+#log "Aplicando preferências do sistema…"
 #defaults write com.apple.screensaver askForPassword -int 1
 #defaults write com.apple.screensaver askForPasswordDelay -int 0
 #defaults write com.apple.finder AppleShowAllFiles -bool true
