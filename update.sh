@@ -67,7 +67,7 @@ brew tap --repair || warn "brew tap --repair falhou"
 # Limpa SSH known_hosts. ATENÇÃO: downgrade de segurança — remove a
 # detecção de MITM em hosts já confiados. Num Mac recém-formatado o
 # arquivo já está vazio de qualquer forma.
-: > "$HOME/.ssh/known_hosts"
+#: > "$HOME/.ssh/known_hosts"
 
 # Atualizações de sistema do macOS (reinicia ao final).
 #sudo softwareupdate -i -a -R --agree-to-license --verbose
@@ -89,15 +89,15 @@ brew tap --repair || warn "brew tap --repair falhou"
 # --- Preferências do macOS -------------------------------------------------
 
 log "Aplicando preferências do sistema…"
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
-defaults write com.apple.finder AppleShowAllFiles -bool true
-chflags nohidden "$HOME/Library"
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+#defaults write com.apple.screensaver askForPassword -int 1
+#defaults write com.apple.screensaver askForPasswordDelay -int 0
+#defaults write com.apple.finder AppleShowAllFiles -bool true
+#chflags nohidden "$HOME/Library"
+#defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 # Dock — timing de auto-hide.
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0.5
+#defaults write com.apple.dock autohide-delay -float 0
+#defaults write com.apple.dock autohide-time-modifier -float 0.5
 
 # Tweaks de performance (catálogo opcional, desabilitado):
 # Desabilita o controle de AutoFill que causa lag
@@ -113,8 +113,8 @@ defaults write com.apple.dock autohide-time-modifier -float 0.5
 # --- Reinicia serviços de UI para aplicar ----------------------------------
 
 log "Reiniciando Finder / Dock / SystemUIServer…"
-killall Finder         2>/dev/null || true
-killall Dock           2>/dev/null || true
-killall SystemUIServer 2>/dev/null || true
+#killall Finder         2>/dev/null || true
+#killall Dock           2>/dev/null || true
+#killall SystemUIServer 2>/dev/null || true
 
 log "Concluído."
