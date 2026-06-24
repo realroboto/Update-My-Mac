@@ -112,7 +112,7 @@ brew tap --repair || warn "brew tap --repair falhou"
 
 # --- Reinicia serviços de UI para aplicar ----------------------------------
 
-log "Reiniciando Finder / Dock / SystemUIServer…"
+#log "Reiniciando Finder / Dock / SystemUIServer…"
 #killall Finder         2>/dev/null || true
 #killall Dock           2>/dev/null || true
 #killall SystemUIServer 2>/dev/null || true
